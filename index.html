@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Linear Transformation and GPUs</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<div class="main">
+
+    	<div class="title-block">
+          	<span class="title">Linear Transformation and GPUs</span><br><br>
+			<br>
+			<span class="name">By Deepinder Singh</span>
+    	</div>
+
+    	<div class="content">
+			<div class="body">
+				<span>
+					In the field of machine learning and deep learning, linear transformations (also known as vector transformations) form a major part of different computations used for 
+					optimizing the parameters and hyperparameters while training the models.
+				</span>
+				<br>
+				<span>
+					<br><h3>Definition of Linear Transformation</h3>
+					Let V and U be two vector spaces, a mapping T: V → U where V is the source space and U is the target space is 
+					called a linear transformation(or linear mapping) if it satisfies the following two conditions:<br>
+					<ol> 
+					<li>For any a&#8407, b&#8407 ϵ V, T(a&#8407 + b&#8407) = T(a&#8407) + T(b&#8407).</li>
+					<li>For any scalar c and a&#8407 ϵ V, T(ca&#8407) = cT(a&#8407).</li>
+					</ol>
+				</span>
+				<br>
+				<span>
+					<h3>Example</h3>
+					Let x&#8407 = &nbsp;
+					<div class="mat-div">
+						<table class="matrix">
+							<tr>
+								<td>x<sub>1</sub></td>
+							</tr>
+							<tr>
+								<td>x<sub>2</sub></td>
+							</tr>
+						</table>
+					</div>
+					&nbsp;
+					be a vector, the transformation T: R<sup>2</sup> → R<sup>2</sup> &nbsp;where T(&nbsp;
+					<div class="mat-div">
+						<table class="matrix">
+							<tr>
+								<td>x<sub>1</sub></td>
+							</tr>
+							<tr>
+								<td>x<sub>2</sub></td>
+							</tr>
+						</table>
+					</div>
+					&nbsp;) = &nbsp;
+					<div class="mat-div">
+						<table class="matrix">
+							<tr>
+								<td>2x<sub>1</sub></td>
+							</tr>
+							<tr>
+								<td>x<sub>1</sub> + x<sub>2</sub></td>
+							</tr>
+						</table>
+					</div>
+					&nbsp; is a linear transformation as for any two given vectors a&#8407 and b&#8407 where a&#8407 = &nbsp;
+					<div class="mat-div">
+						<table class="matrix">
+							<tr>
+								<td>a<sub>1</sub></td>
+							</tr>
+							<tr>
+								<td>a<sub>2</sub></td>
+							</tr>
+						</table>
+					</div>
+					&nbsp;
+					and b&#8407 = &nbsp;
+					<div class="mat-div">
+						<table class="matrix">
+							<tr>
+								<td>b<sub>1</sub></td>
+							</tr>
+							<tr>
+								<td>b<sub>2</sub></td>
+							</tr>
+						</table>
+					</div>
+					&nbsp;:<br><br>
+
+					<div class="proof">
+						<div class="left-proof">
+							<div class="proof-content">
+								T(a&#8407) = T(&nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>a<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>a<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;) = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2a<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>a<sub>1</sub> + a<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;<br><br>
+								T(b&#8407) = T(&nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>b<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>b<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;) = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2b<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>b<sub>1</sub> + b<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;<br><br>
+								T(a&#8407) + T(b&#8407) = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2a<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>a<sub>1</sub> + a<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp; + &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2b<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>b<sub>1</sub> + b<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp; = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2a<sub>1</sub> + 2b<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>a<sub>1</sub> + a<sub>2</sub> + b<sub>1</sub> + b<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;<br><br>
+							</div>
+						</div>
+						<div class="right-proof">
+							<div class="proof-content">
+								a&#8407 + b&#8407 = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>a<sub>1</sub> + a<sub>2</sub></td>
+										</tr>
+										<tr>
+											<td>b<sub>1</sub> + b<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;<br><br>
+								T(a&#8407 + b&#8407) = T(&nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>a<sub>1</sub> + a<sub>2</sub></td>
+										</tr>
+										<tr>
+											<td>b<sub>1</sub> + b<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;) = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2a<sub>1</sub> + 2b<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>a<sub>1</sub> + a<sub>2</sub> + b<sub>1</sub> + b<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;<br><br>
+							</div>
+						</div>
+					</div>
+
+					<br><br><div class="and">and for a scalar c</div><br><br>
+
+					<div class="proof">
+						<div class="left-proof">
+							<div class="proof-content">
+								ca&#8407 = c&nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>a<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>a<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp; = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>ca<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>ca<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;
+								<br><br>
+								cT(a&#8407) = c&nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2a<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>a<sub>1</sub> + a<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp; = &nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>2ca<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>ca<sub>1</sub> + ca<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;
+								<br><br>
+							</div>
+						</div>
+						<div class="right-proof">
+							<div class="proof-content">
+								T(ca&#8407) = T(&nbsp;
+								<div class="mat-div">
+									<table class="matrix">
+										<tr>
+											<td>ca<sub>1</sub></td>
+										</tr>
+										<tr>
+											<td>ca<sub>2</sub></td>
+										</tr>
+									</table>
+								</div>
+								&nbsp;) = &nbsp;
+									<div class="mat-div">
+										<table class="matrix">
+											<tr>
+												<td>2ca<sub>1</sub></td>
+											</tr>
+											<tr>
+												<td>ca<sub>1</sub> + ca<sub>2</sub></td>
+											</tr>
+										</table>
+									</div>
+									&nbsp;
+								</div>
+							</div>
+						</div>
+					<br>
+					Therefore, T(a&#8407 + b&#8407) = T(a&#8407) + T(b&#8407) <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and T(ca&#8407) = cT(a&#8407)
+					<br><br>
+					
+					<h3>Visualization</h3>
+						Consider a vector x&#8407 = (3, 2) on which the transformation T is applied
+					<br><br>
+					<div class="img-block">
+						<div class="left-img l-img">
+							<figure>
+								<img src="images/l1.png" alt="Original Vector">
+								<figcaption>Original vector</figcaption>
+							</figure>
+						</div>
+						<div class="right-img l-img">
+							<figure>
+								<img src="images/l2.png" alt="After transformation">
+								<figcaption>Transformed vector</figcaption>
+							</figure>
+						</div>
+					</div>
+
+					<br><h3>Matrix vector product as Linear Transformation</h3>
+					Linear transformations can be specified as matrix vector product by using a transformation matrix denoted by A and 
+					the vector to be tranformed denoted by x&#8407. Each column of the transformation matrix is the transformation of standard basis 
+					vectors of the source space. <br><br>
+					A transformation T is defined as :<br>
+					<div style="text-align: center;">T(x&#8407) = Ax&#8407</div><br>
+					For the above example, the transformation matrix is A = &nbsp;
+					<div class="mat-div">
+						<table class="matrix">
+							<tr>
+								<td>2</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+							</tr>
+						</table>
+					</div>
+					&nbsp;<br>
+					In python, the transformed vector can be calculated using the matmul function present in numpy library.
+					<div>
+						<pre>
+
+	import numpy as np
+	x = np.array( [3, 2] )
+	A = np.array( [ [2, 0],
+		     		     [1, 1] ] )
+	t = np.matmul(A, x)
+	print (t)
+						</pre>
+					</div>
+
+					<br><h3>Role of GPUs</h3>
+					A GPU(Graphics Processing Unit) is a mini version of an entire computer which is only dedicated 
+					to a specific task. GPU has its own processor which is embedded onto its own motherboard coupled 
+					with v-ram or video ram, and also a proper thermal design for ventilation and cooling.<br><br>
+					GPUs are optimized for matrix multiplication using parallel computing which helps in computation of the linear transformations 
+					faster than CPUs.
+
+					<br><h4>Example</h4>
+					In deep learning, different type of neural networks like Artifical Neural Networks(ANN), Convolutional Neural Networks(CNN), Recurrent neural networks(RNN) etc. 
+					are used to train the models for classification and prediction tasks which involve linear transformations.
+					<br><br>
+					In Artificial Neural Networks(ANN), the neural newtorks has a particular input size and conatins various hidden layers with each layer
+					having different hidden units. Weights are associated with each hidden unit of a layer and each training example which forms the weight matrix of the layer. In the forward propagation 
+					of the neural network, activations of each layer are calculated which involve the multiplication of the weight matrix of the layer and the activation of the previous layer.
+					<div class="nn-img">
+						<figure class="center">
+							<img src="images/nn.png" alt="ANN">
+							<figcaption>Neural Network</figcaption>
+						</figure>
+					</div>
+					<br>
+					For a layer l in the neural network, the linear part Z of activation function is calculated using<br>
+					<div class="center">Z<sup>[l]</sup> = W<sup>[l]</sup>A<sup>[l - 1]</sup> + b<sup>[l]</sup></div>
+					where W<sup>[l]</sup> is the weight matrix, A<sup>[l - 1]</sup> is the activation of the previous layer and b<sup>[l]</sup> is the bias vector of layer l.
+					<br><br>
+					W<sup>[l]</sup>A<sup>[l - 1]</sup> represents the matrix multiplication required for performing a linear transformation.
+					When the number of training examples and the number of hidden units of a layer increase, size of both the matrices increases and the large scale matrix multiplication
+					slows down the training of the neural network.
+					<br><br>
+					As, GPUs are optimized for the matrix multiplication, they reduce the computation time for matrix multiplication and overall training time of the neural network.
+
+				</span>
+			</div>
+		</div>
+
+      	<div class="content">
+			<br><br><br>
+			<span class="ref">References</span>
+			<br><br>
+			<ul>
+				<li><a class = "aref" href="https://medium.com/secure-and-private-ai-math-blogging-competition/linear-algebra-and-numpy-ab18214fd752">Linear Algebra and Numpy</a>
+				<br><br>
+				</li>
+				<li><a class = "aref" href="https://www.analyticsvidhya.com/blog/2017/05/gpus-necessary-for-deep-learning/">Why are GPUs necessary for training Deep Learning models?</a>
+				<br><br>
+			</ul>
+      	</div>
+		<br><br>
+	</div>
+
+</body>
+</html>
